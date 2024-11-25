@@ -7,6 +7,7 @@
 
 ```M, N = map(int, input().split())```一次读取两个数（经典必会）
 
+
 ### 输出
 ```print("{a:._f}"))```：输出a保留_位小数
 
@@ -21,7 +22,7 @@
 
 ### 函数（简单的不收录）
 
-import math -> ```math.ceil()``` :向上取整
+import math -> ```math.ceil()``` :向上取整 ;``` math.log() ```:可取logn
 
 ```abs()```：绝对值
 
@@ -59,6 +60,8 @@ except EOFError:
 ```append(x)```: 在右侧插入元素 x（类似于列表的 append）。<br>
 ```pop()```: 从右侧弹出并返回一个元素。
 
+
+
 ### 数组list用
 ```.index()```：找出某个值（数组内）的索引值
 
@@ -86,4 +89,17 @@ except EOFError:
 
 
 ## 二、算法或经典方法
+
+### 使用埃氏筛法生成所有小于等于 10^6 的质数（见于Tprimes）
+```
+def sieve_of_eratosthenes(limit):
+    is_prime = [True] * (limit + 1)
+    is_prime[0] = is_prime[1] = False  # 0 和 1 不是质数
+    for i in range(2, int(math.sqrt(limit)) + 1):
+        if is_prime[i]:
+            for j in range(i * i, limit + 1, i):
+                is_prime[j] = False
+    return is_prime
+```
+
 
