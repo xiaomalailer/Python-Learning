@@ -7,6 +7,7 @@
 
 ```M, N = map(int, input().split())```一次读取两个数（经典必会）
 
+```arr.append(tuple(map(int, input().split())))``` 形成list中的tuple
 
 ### 输出
 ```print("{a:._f}"))```：输出a保留_位小数
