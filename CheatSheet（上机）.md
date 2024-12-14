@@ -876,6 +876,111 @@ for _ in range(t):
     print((s[b] - s[a - 1] + MOD) % MOD)
 ```
 
+### 递归
+**递归三法则**
+1. 递归算法必须有一个**基准情形（递的终止，归的开始）**
+
+2. 递归算法必须改变其状态并朝着基准情形前进。
+
+3. 递归算法必须**调用自身**，即进行递归调用。
+
+例：Converting an Integer to a String in Any Base
+```
+def to_str(n, base):
+    # 定义用于转换的字符序列
+    convert_string = "0123456789ABCDEF"
+
+    # 基准情形：如果 n 小于基数，则直接返回对应的字符
+    if n < base:
+        return convert_string[n]
+    else:
+        # 递归调用：先处理商，再处理余数
+        # 通过延迟连接操作，确保结果的顺序是正确的
+        return to_str(n // base, base) + convert_string[n % base]
+
+
+# 示例
+print(to_str(10, 2))  # 输出: "1010"
+print(to_str(255, 16))  # 输出: "FF"
+```
+
+例：汉诺塔问题
+```
+# https://blog.csdn.net/geekwangminli/article/details/7981570
+
+# 将编号为numdisk的盘子从init杆移至desti杆 
+def moveOne(numDisk : int, init : str, desti : str):
+    print("{}:{}->{}".format(numDisk, init, desti))
+
+#将numDisks个盘子从init杆借助temp杆移至desti杆
+def move(numDisks : int, init : str, temp : str, desti : str):
+    if numDisks == 1:
+        moveOne(1, init, desti)
+    else: 
+        # 首先将上面的（numDisk-1）个盘子从init杆借助desti杆移至temp杆
+        move(numDisks-1, init, desti, temp) 
+        
+        # 然后将编号为numDisks的盘子从init杆移至desti杆
+        moveOne(numDisks, init, desti)
+        
+        # 最后将上面的（numDisks-1）个盘子从temp杆借助init杆移至desti杆 
+        move(numDisks-1, temp, init, desti)
+
+n, a, b, c = input().split()
+move(int(n), a, b, c)
+```
+
+```
+#简洁写法
+def move(n,init:str,temp:str,des:str):
+    if n==0:
+        return
+    move(n-1,init,des,temp)
+    print(f"{n}:{init}->{des}")
+    move(n-1,temp,init,des)
+
+n,a,b,c=input().split()
+move(int(n),a,b,c)
+```
+
+例：全排列
+```
+
+def work_p(idx, n, used, temp, result):
+    # 如果 idx 超出 n，表示当前排列完成，将其添加到结果集中
+    if idx == n + 1:
+        result.append(temp[:])  # 将 temp 的副本添加到 result 中
+        return  # 结束当前递归调用
+    
+    # 尝试将数字 1 到 n 放入当前排列的第 idx 个位置
+    for i in range(1, n + 1):
+        # 如果数字 i 未被使用，则将其添加到当前排列中
+        if not used[i]:
+            temp.append(i)       # 将数字 i 添加到当前排列 temp 中
+            used[i] = True       # 标记数字 i 已被使用
+            # 递归调用，继续填充下一个位置
+            work_p(idx + 1, n, used, temp, result)
+            # 回溯过程，将 i 从当前排列中移除并标记为未使用
+            used[i] = False      # 撤销使用 i 的标记
+            temp.pop()           # 移除最后添加的 i
+
+def permutations(n):
+    # 初始化结果列表，用于存储所有排列
+    result = []
+    # 初始化使用列表，记录每个数字是否已被使用
+    used = [False] * (n + 1)  # 下标 0 不使用，因此长度为 n+1
+    # 调用递归函数，从第一个位置开始填充排列
+    work_p(1, n, used, [], result)
+    
+    # 输出结果中的每一个排列
+    for ans in result:
+        print(' '.join(map(str, ans)))  # 将排列中的数字转成字符串并用空格连接
+
+# 从用户输入中读取 n 的值
+n = int(input("请输入一个整数 n: "))
+# 生成并打印从 1 到 n 的所有排列
+permutations(n)
+```
 ### 排队
 
 ```
