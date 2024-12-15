@@ -33,7 +33,13 @@ import math -> ```math.ceil()``` :向上取整 ;``` math.log() ```:可取logn
 
  ```a= float("inf")```：inf无穷，需用float(也可以加负号变成负无穷）```float('-inf')```
 
- ```.replace(" ",' ')```：将字符串中的某些字符替换（前为欲替换字符，后为替换后）
+ ```.replace(old,new,count)```：将字符串中的某些字符替换（前为欲替换字符，后为替换后）
+ 
+ ```count(substring,start,end)``` 返回字符串中指定子串出现的次数
+ 
+ ```rfind(subsring,start,end) ```返回指定子串在字串中最后一次出现的位置，无则返回-1
+
+ ```startswith(prefix,start,end) ; endswith(suffix,start,end)``` 检查字符串是否以指定前缀开始/以指定后缀结束
 
  ```
 try:
@@ -43,7 +49,7 @@ except EOFError:
     pass/break  # This will stop the loop when no more input is given
 ```
 
-```''.join（）```：以''链接（）内的元素
+```''.join（）```：以''链接（）内的元素(使用字符串将序列中的元素连接起来生成新字符串）
 
 ```all()```：all() 返回 True，当且仅当可迭代对象中的所有元素都为 True。如果有一个元素为 False，则 all() 返回 False
 
