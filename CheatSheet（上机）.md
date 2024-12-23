@@ -1196,3 +1196,175 @@ while True:
     print(boxes)
 
 ```
+
+波兰表达式
+```
+
+cnt=-1
+def poland_equation():
+    global cnt
+    cnt += 1
+    chr=eqn[cnt]
+
+    if chr=='+':
+        return poland_equation() + poland_equation()
+    elif chr=='-':
+        return poland_equation() - poland_equation()
+    elif chr=='*':
+        return poland_equation() * poland_equation()
+    elif chr=='/':
+        return poland_equation() / poland_equation()
+    else:
+        return float(chr)
+
+
+eqn=list(input().split())
+result=poland_equation()
+print("{:.6f}".format(result))
+```
+
+滑雪
+
+用一个2d list作为记录经过路径长(dp)，起始都为0。然后dfs，如果如果dp[i][j]大于0，就是已经检验过最长经过路径，所以return dp[i][j]；否则代表是第一次检验，检查上下左右的格子，如果高度小就可以走，返回max{dp[i][j], 四周的格的dfs + 1}
+
+```
+R,C=map(int,input().split())
+maze=[]
+maze.append([100001 for _ in range(C+2)])
+for _ in range(R):
+    maze.append([100001] + [int(i) for i in input().split()] +[100001])
+maze.append([100001 for _ in range(C+2)])
+
+move=[(0,1),(0,-1),(1,0),(-1,0)]
+snow_length=[[0]*(C+2) for _ in range(R+2)]
+
+def dfs(i,j):
+    if snow_length[i][j]>0:
+        return snow_length[i][j]
+
+    for dx,dy in move:
+        nx=i+dx
+        ny=j+dy
+        if maze[nx][ny]<maze[i][j]:
+            snow_length[i][j]=max(snow_length[i][j],1+dfs(nx,ny))
+
+    return snow_length[i][j]
+
+ans=0
+for i in range(1,R+1):
+    for j in range(1,C+1):
+        ans=max(ans,dfs(i,j))
+
+print(ans+1)
+
+
+```
+
+#### 八皇后
+
+```
+list1 = []
+
+def queen(s):
+    if len(s) == 8:
+        list1.append(s)
+        return
+    for i in range(1, 9):
+        if all(str(i) != s[j] and abs(len(s) - j) != abs(i - int(s[j])) for j in range(len(s))):
+            queen(s + str(i))
+
+queen('')
+samples = int(input())
+for k in range(samples):
+    print(list1[int(input()) - 1])
+
+"""
+abs(len(s) - j) != abs(i - int(s[j])) for j in range(len(s)) 是一个生成器表达式，
+用于检查当前尝试放置的皇后是否与已经放置的皇后在同一条对角线上。具体解释如下：
+
+- len(s) 表示当前已经放置的皇后的数量，即当前正在尝试放置的皇后的行号。
+- j 是已经放置的皇后的列号。
+- i 是当前尝试放置的皇后的列号。
+- s[j] 是已经放置的皇后所在的列号。
+
+对于每一个已经放置的皇后，检查以下条件：
+- abs(len(s) - j) 计算当前尝试放置的皇后与已经放置的皇后之间的行差。
+- abs(i - int(s[j])) 计算当前尝试放置的皇后与已经放置的皇后之间的列差。
+
+如果行差和列差相等，说明两皇后在同一条对角线上，返回 `False`，否则返回 `True`。
+"""
+```
+
+分发糖果
+
+```
+ratings=list(map(int,input().split()))
+n=len(ratings)
+left=[0]*n
+for i in range(n):
+    if i>0 and ratings[i]>ratings[i-1]:
+        left[i]=left[i-1]+1
+    else:
+        left[i]=1
+        
+right=ret=0
+for i in range(n-1,-1,-1):
+    if i<n-1 and ratings[i]>ratings[i+1]:
+        right+=1
+    else:
+        right=1
+    ret+=max(left[i],right)
+print(ret)
+```
+#### 移动窗口
+
+
+```
+def binary_s(s):
+    left=0
+    ans=0
+    visited=set()
+
+    for right in range(len(s)):
+        while s[right] in visited:
+            visited.remove(s[left])
+            left+=1
+        visited.add(s[right])
+        ans=max(ans,right-left+1)
+    return ans
+
+s=input()
+print(binary_s(s))
+```
+
+#### 栈
+03704:扩号匹配问题
+```
+while True:
+    try:
+        arr=list(input())
+        stack=[]
+
+        out = []
+        for i in range(len(arr)):
+            if arr[i]=='(':
+                stack.append(i)
+                out+=' '
+            elif arr[i]==')':
+                if len(stack)==0:
+                    out+='?'
+                else:
+                    out+=' '
+                    stack.pop()
+            else:
+                out+=' '
+        while(len(stack)>0):
+            out[stack[-1]]='$'
+            stack.pop()
+        print(''.join(arr))
+        print(''.join(out))
+
+
+    except EOFError:
+      break
+```
